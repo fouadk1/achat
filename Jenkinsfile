@@ -15,14 +15,14 @@ pipeline {
         stage('Build code (Maven)') {
             steps {
                 sh 'mvn -version'
-            // sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
-    // stage('Run unit tests (Maven)') {
-    //     steps {
-    //         sh 'mvn test'
-    //     }
-    // }
+        stage('Run unit tests (Maven)') {
+            steps {
+                sh 'mvn test'
+            }
+        }
     // stage('Launch SonarQube and Nexus') {
     //     steps {
     //         sh 'docker-compose down --remove-orphans'
