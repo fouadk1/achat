@@ -21,12 +21,7 @@ pipeline {
                   }
               } 
        
-         stage('MVN Test'){
-                  steps{
-                      echo "Maven Test Junit"
-                      sh 'mvn test'
-                  }
-              }
+
         stage('MVN SONARQUBE'){
                   steps{
                       echo "Maven SONARQUBE"
@@ -34,7 +29,12 @@ pipeline {
                   }
               }
         
-        
+           stage('MVN Test'){
+                  steps{
+                      echo "Maven Test Junit"
+                      sh 'mvn test'
+                  }
+              }      
                       
     }
 }
