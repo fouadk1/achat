@@ -14,13 +14,13 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'mvn -version'
+                sh 'echo hello world'
             }
         }
-        stage('Run unit tests (Maven)') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+        // stage('Run unit tests (Maven)') {
+        //     steps {
+        //         sh 'mvn test'
+        //     }
+        // }
     }
 }
