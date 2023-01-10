@@ -20,12 +20,7 @@ pipeline {
                       sh 'mvn compile'
                   }
               } 
-        stage('MVN Package'){
-                  steps{
-                      echo "Maven Package"
-                      sh 'mvn Package'
-                  }
-              }
+       
          stage('MVN Test'){
                   steps{
                       echo "Maven Test Junit"
