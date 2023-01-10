@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'echo hello world'
+                bat 'echo hello world'
             }
         }
         // stage('Run unit tests (Maven)') {
