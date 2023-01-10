@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                mvn - version
+                mvn -version
             }
         }
     // stage('Run unit tests (Maven)') {
