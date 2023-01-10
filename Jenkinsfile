@@ -15,7 +15,7 @@ pipeline {
         stage('Build code (Maven)') {
             steps {
                 sh 'mvn -version'
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
         stage('Run unit tests (Maven)') {
