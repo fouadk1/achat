@@ -14,7 +14,10 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                mvn - version
+                sh '''
+                    echo "AB"
+                    echo "CD"
+                '''
             }
         }
     // stage('Run unit tests (Maven)') {
