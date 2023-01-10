@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -21,7 +22,7 @@ import tn.esprit.rh.achat.entities.Reglement;
 import tn.esprit.rh.achat.repositories.ReglementRepository;
 
 @SpringBootTest
-@TestMethodOrder(OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ReglementServiceTest {
  @Autowired
  IReglementService rs;
