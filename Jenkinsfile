@@ -5,7 +5,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('Clone code (Git) ') {
+        stage('Clone source code from Git') {
             steps {
                 echo "Cloning Project from GitHub; Branch : $branchName"
                 git branch: "$branchName",
