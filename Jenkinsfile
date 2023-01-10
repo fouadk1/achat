@@ -14,16 +14,19 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh '''
-                    echo "AB"
-                    echo "CD"
-                '''
+                sh 'mvn -version'
+                sh 'mvn clean package'
             }
         }
-    // stage('Run unit tests (Maven)') {
-    //     steps {
-    //         sh 'mvn test'
-    //     }
-    // }
+        stage('Run unit tests (Maven)') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Run code quality test (SonarQube)') {
+            steps {
+                sh 'docker-compose up'
+            }
+        }
     }
 }
