@@ -8,7 +8,7 @@ pipeline {
         stage('Clone code (Git) ') {
             steps {
                 echo "Cloning Project from GitHub; Branch : $branchName"
-                git branch: 'master',
+                git branch: 'sofiene',
                 url: 'https://github.com/fouadk1/achat.git'
             }
         }
