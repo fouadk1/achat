@@ -19,7 +19,7 @@ pipeline {
         }
         stage('MVN COMPILE') {
             steps {
-                sh 'mvn compile -DskipTests'
+                sh 'mvn compile'
             }
         }
         stage('MVN SONARQUBE') {
@@ -29,7 +29,7 @@ pipeline {
         }   
         stage('MVN DEPLOY') {
             steps {
-                sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
+                sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
             }
         }
 
