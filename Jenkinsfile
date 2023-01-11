@@ -3,7 +3,7 @@ pipeline {
         localhost = "192.168.0.11"
         registry = "fouadk1/project" 
         registryCredential = 'fouadk1' 
-        dockerImage = 'achatProject'
+        dockerImage = 'achat'
     }
     agent any
     stages {
