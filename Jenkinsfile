@@ -41,7 +41,7 @@ pipeline {
         stage('Building our image') { 
             steps { 
                 script { 
-                    sh "docker build -t $dockerImage ."
+                    sh "docker build -t $dockerImage:$build_number ."
                 }
             } 
         }
@@ -49,8 +49,8 @@ pipeline {
             steps { 
                 script {
                         sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
-                        sh "docker tag $dockerImage:version $dockerRepo:version"
-                        sh "docker push $dockerUser/$dockerRepo:version"
+                        sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
+                        sh "docker push $dockerUser/$dockerRepo:$build_number"
                     } 
             } 
         }
