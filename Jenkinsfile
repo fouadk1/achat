@@ -17,16 +17,17 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-          stage('MVN COMPILE') {
+        stage('MVN COMPILE') {
             steps {
                 sh 'mvn compile -DskipTests'
             }
         }
-            stage('MVN SONARQUBE') {
+        stage('MVN SONARQUBE') {
             steps {
                 sh 'mvn package -B -DskipTests sonar:sonar -Dsonar.host.url=${localost}:9000'
             }
-        }   stage('Nexus') {
+        }   
+        stage('Nexus') {
             steps {
                 sh 'mvn deploy'
             }
