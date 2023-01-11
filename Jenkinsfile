@@ -1,6 +1,6 @@
 pipeline {
   environment {
-        localost = "192.168.0.11"
+        localhost = "192.168.0.11"
     }
     agent any
     stages {
