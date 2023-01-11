@@ -24,7 +24,7 @@ pipeline {
         }
         stage('MVN SONARQUBE') {
             steps {
-                sh 'mvn package -B -DskipTests sonar:sonar -Dsonar.host.url=${localost}:9000'
+                sh 'mvn package -B -DskipTests sonar:sonar -Dsonar.host.url=192.168.0.11:9000'
             }
         }   
         stage('Nexus') {
