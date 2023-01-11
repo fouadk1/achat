@@ -4,7 +4,7 @@ pipeline {
         branchName = 'sofiene'
         dockerImageName = 'sofiene/achat'
         registry = 'sofiene/achatproject'
-        registryCredential = credentials('dc110c28-ee22-45a3-b997-a1495b66c44d')
+        registryCredential = credentials('dockerhub-sofiene')
     }
     agent any
     stages {
@@ -32,19 +32,22 @@ pipeline {
             }
         }
 
-        // stage('Package and deploy to Nexus') {
-        //     steps {
-        //         sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://0.0.0.0:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
-        //     }
-        // }
+        stage('Package and deploy to Nexus') {
+            steps {
+                sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.122.1:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
+            }
+        }
         stage('Build and deploy image to DockerHub (Docker)') {
             steps {
-                script {
-                    dockerImage = docker.build registry
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                    }
-                }
+                sh "docker build -t $dockerImageName:$build_number"
+                sh "echo $registryCredential_PSW | docker login -u $registryCredential_USR --password-stdin"
+                sh "docker push $registry:$build_number"
+            // script {
+            //     dockerImage = docker.build registry
+            //     docker.withRegistry('', registryCredential) {
+            //         dockerImage.push()
+            //     }
+            // }
             }
         }
 

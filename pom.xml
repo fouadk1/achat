@@ -12,6 +12,7 @@
     <groupId>tn.esprit.rh</groupId>
     <artifactId>achat</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
     <name>achat</name>
     <description>Projet pour le module DevOps</description>
     <properties>
@@ -89,7 +90,7 @@
         <repository>
             <id>deploymentRepo</id>
             <name>Nexus Repository</name>
-            <url>http://0.0.0.0:8081/repository/maven-releases/</url>
+            <url>http://192.168.122.1:8081/repository/maven-releases/</url>
         </repository>
     </distributionManagement>
 </project>
