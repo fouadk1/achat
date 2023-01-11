@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('Build and deploy image to DockerHub (Docker)') {
+        stage('Build docker image') {
             steps {
                     sh "docker build -t $dockerImageName:v1.$build_number ."
                     sh "docker image tag $dockerImageName:v1.$build_number $registry/$dockerImageName:v1.$build_number"
