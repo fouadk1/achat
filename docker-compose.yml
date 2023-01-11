@@ -1,12 +1,24 @@
-# docker-compose.yml
-version: '2'
+version: '3'
 services:
-        sonarqube:
-                image: sonarqube:8.9.7-community
+        mysql-standalone:
+                image: 'mysql:5.6'
+                environment:
+                        - MYSQL_ROOT_PASSWORD=password
+                        - MYSQL_PASSWORD=password
+                        - MYSQL_DATABASE=timesheetdb
+                        - MYSQL_USER=sa
                 ports:
-                        - "9000:9000"
-                        - "9000:9092"
-        nexus:
-                image: sonartype/nexus3
+                        - "3306:3306"
+        springboot-docker-container:
+                image: achat:$BUILD_NUMBER
                 ports:
-                        - "8081:8081"
+                        - "8086:8086"
+                environment:
+                        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/timesheetdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+                        SPRING_DATASOURCE_USERNAME: "sa"
+                        SPRING_DATASOURCE_PASSWORD: "password"
+                build:
+                        context: "./"
+                        dockerfile: "Dockerfile"
+                depends_on:
+                        - mysql-standalone

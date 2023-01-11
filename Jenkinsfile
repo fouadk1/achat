@@ -7,6 +7,8 @@ pipeline {
         dockerRepo = "project"
         DOCKERHUB_CREDS = credentials('dockerhub1')
         tagname = "second"
+        registry= "fouadk1/achat"
+	    registryCredential = "dockerhub-pwd"
     }
     agent any
     stages {
@@ -41,17 +43,24 @@ pipeline {
         stage('Building our image') { 
             steps { 
                 script { 
-                    sh "docker build -t $dockerImage:$build_number ."
+                    timestamps {
+                    //sh "docker build -t $dockerImage:$build_number ."
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    }
                 }
             } 
         }
-        stage('tag image') { 
+        stage('push') { 
             steps { 
                 script {
-                        sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
+                        //sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
                         //sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
-                        sh "docker images"
-                        sh "docker push $dockerRepo/$dockerImage"
+                        //sh "docker images"
+                        //sh "docker push $dockerRepo/$dockerImage"
+                        timestamps {
+						  docker.withRegistry ('', registryCredential ) {
+							  dockerImage.push()
+                        }
                     } 
             } 
             
