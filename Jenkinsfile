@@ -20,6 +20,12 @@ pipeline {
                        sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://192.168.1.126:9000 -Dsonar.login=admin -Dsonar.password=AS@vaxi@##21'
                       }
                   }
+              stage('MVN Test'){
+                   steps{
+                       echo "Maven Test Junit + Mockito"
+                       sh 'mvn test -Dtest=ReglementServiceTest'
+                      }
+                  }      
 
 
               
