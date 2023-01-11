@@ -17,9 +17,8 @@ pipeline {
             }
         }
         stage('Build code (Maven)') {
-            steps {
-                sh 'mvn -version'
-                sh 'mvn clean install -DskipTests'
+            steps { 
+                mvn clean install -DskipTests
             }
         }
         stage('Run unit tests (Maven)') {
