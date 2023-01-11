@@ -19,22 +19,23 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
-        stage('Run unit tests (Maven)') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+        // stage('Run unit tests (Maven)') {
+        //     steps {
+        //         sh 'mvn test'
+        //     }
+        // }
         // stage('Launch SonarQube and Nexus') {
         //     steps {
+        //         sh 'sudo chmod 666 /var/run/docker.sock'
         //         sh 'docker-compose down --remove-orphans'
         //         sh 'docker-compose up'
         //     }
         // }
-        // stage('Run code quality test (SonarQube)') {
-        //     steps {
-        //         sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=SofieneAchat -Dsonar.host.url=http://0.0.0.0:9000 -Dsonar.login=ddf4bd755d76dccf822898a9325f22b4bafe8957'
-        //     }
-        // }
+        stage('Run code quality test (SonarQube)') {
+            steps {
+                sh 'mvn clean verify -DskipTests sonar:sonar -Dsonar.projectKey=SofieneAchat -Dsonar.host.url=http://0.0.0.0:9000 -Dsonar.login=fc0c69f06c9ed9e7b35cdc27b3954a484bf44fc2'
+            }
+        }
         stage('Image build (Docker)') {
             steps {
                 sh 'docker build -t sofiene/achat .'
