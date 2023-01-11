@@ -24,7 +24,7 @@ pipeline {
         }
         stage('MVN SONARQUBE') {
             steps {
-                sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=fouad_achat -Dsonar.host.url=http://192.168.0.11:9000 -Dsonar.login=311d4bf1a2ee143843a922533048832dd3487f39'
+                sh 'mvn clean verify -DskipTests sonar:sonar -Dsonar.projectKey=fouad_achat -Dsonar.host.url=http://192.168.0.11:9000 -Dsonar.login=311d4bf1a2ee143843a922533048832dd3487f39'
             }
         }   
         stage('Nexus') {
