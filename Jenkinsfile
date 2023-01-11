@@ -1,6 +1,9 @@
 pipeline {
   environment {
         localhost = "192.168.0.11"
+        registry = "fouadk1/project" 
+        registryCredential = 'fouadk1' 
+        dockerImage = 'achatProject'
     }
     agent any
     stages {
@@ -17,9 +20,9 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('MVN COMPILE') {
+        stage('MVN UnitTEST (Mockito)') {
             steps {
-                sh 'mvn compile'
+                sh 'mvn test'
             }
         }
         stage('MVN SONARQUBE') {
@@ -32,6 +35,21 @@ pipeline {
                 sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
             }
         }
+          stage('Building our image') { 
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                }
+            } 
+        }
+        stage('Deploy image to Docker Hub') { 
+            steps { 
+                script { 
+                    docker.withRegistry( '', withDockerRegistry([ credentialsId: "fouadk1", url: "" ]) ) { 
+                        dockerImage.push() }
+                        }
+                } 
+            } 
 
     }
 }
