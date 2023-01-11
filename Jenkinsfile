@@ -15,8 +15,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'mvn -version'
-                echo 'test from git '
+                sh 'mvn clean install'
             }
         }
         stage('SonarQube Analysis') {
@@ -25,7 +24,7 @@ pipeline {
                          -Dsonar.projectKey=firasOperateur \
                          -Dsonar.host.url=http://192.168.3.18:9000 \
                          -Dsonar.login=aa5ec4a0c47a4bb91c51bdc7d68a27e65cc711f6'
-                }
             }
+        }
     }
 }
