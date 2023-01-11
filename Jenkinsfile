@@ -18,8 +18,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'mvn -version'
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean compile -DskipTests'
             }
         }
         stage('Run unit tests (Maven)') {
@@ -33,14 +32,14 @@ pipeline {
             }
         }
 
-        // stage('Package and deploy to Nexus') {
-        //     steps {
-        //         // sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
-        //         script {
-        //             nexusArtifactUploader artifacts: [[artifactId: 'achat', classifier: '', file: 'target/achat.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'tn.esprit.rh', nexusUrl: 'http://192.168.122.1:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
-        //         }
-        //     }
-        // }
+        stage('Package and deploy to Nexus') {
+            steps {
+                sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
+                // script {
+                //     nexusArtifactUploader artifacts: [[artifactId: 'achat', classifier: '', file: 'target/achat.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'tn.esprit.rh', nexusUrl: 'http://192.168.122.1:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
+                // }
+            }
+        }
         stage('Build docker image') {
             steps {
                     sh "docker build -t $dockerImageName:v1.$BUILD_NUMBER ."
@@ -51,12 +50,12 @@ pipeline {
 
         stage('Push image to DockerHub (Docker)') {
             steps {
-                // script {
-                //     dockerImage = docker.build registry
-                //     docker.withRegistry('', registryCredential) {
-                //         dockerImage.push()
-                //     }
-                // }
+                script {
+                    dockerImage = docker.build registry
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
                 withCredentials([gitUsernamePassword(credentialsId: 'dockerhub_password', gitToolName: 'Default'), string(credentialsId: 'dock_creds', variable: 'dockerhub_cred')]) {
                     sh "docker login -u sofienembk -p ${dockerhub_cred}"
                     sh "docker image push $registry/$dockerImageName:v1.$BUILD_NUMBER"
