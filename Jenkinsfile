@@ -5,6 +5,7 @@ pipeline {
         dockerImage = "achat"
         dockerUser = "fouadk1"
         dockerRepo = "project"
+        DOCKERHUB_CREDS = credentials('dockerhub1')
     }
     agent any
     stages {
@@ -46,11 +47,11 @@ pipeline {
         stage('Deploy image to Docker Hub') { 
             steps { 
                 script {
-                    withCredentials([string(credentialsId: 'dockerhub1', variable: 'dockercredentials')]) {
-                        sh "docker login -u $dockerUser -p ${dockercredentials}"
+                    //withCredentials([string(credentialsId: 'dockerhub1', variable: 'dockercredentials')]) {
+                        sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
                         sh "docker tag $dockerImage $dockerUser/project:second"
                         sh "docker push $dockerUser/$dockerRepo:second"
-                        }
+                       // }
                 } 
             } 
         }
