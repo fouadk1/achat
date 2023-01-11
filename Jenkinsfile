@@ -34,7 +34,7 @@ pipeline {
         stage('Nexus') {
             steps {
                 /* groovylint-disable-next-line LineLength */
-                sh 'mvn clean package  deploy:deploy-file  -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://localhost:8081/repository/maven-releases/ -Dfile=target/Achat-1.0.war'
+                sh 'mvn clean package  deploy:deploy-file  -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.3.18:8081/repository/maven-releases/ -Dfile=target/Achat-1.0.war'
             }
         }
     }
