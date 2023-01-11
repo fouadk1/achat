@@ -1,6 +1,7 @@
 package tn.esprit.rh.achat.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,9 +44,10 @@ public class StockServiceTest {
         Assertions.assertEquals(myStock, stockService.addStock(myStock));
 	}
 
-    // @Test
-    // public void testDeleteStock() {
-    //     Stock myStock = new Stock("stock5",15,3);
-    //     stockService.deleteStock(1l);
-	// }
+    @Test
+    public void testDeleteStock() {
+        Stock myStock = new Stock(1l,"stock5",15,3,null);
+        stockService.deleteStock(myStock.getIdStock());
+        verify(repository,times(1)).deleteById(myStock.getIdStock());
+	}
 }

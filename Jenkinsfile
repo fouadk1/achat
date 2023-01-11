@@ -3,6 +3,8 @@ pipeline {
         repoUrl = 'https://github.com/fouadk1/achat.git'
         branchName = 'sofiene'
         dockerImageName = 'sofiene/achat'
+        registry = 'sofiene/achatproject'
+        registryCredential = credentials('dc110c28-ee22-45a3-b997-a1495b66c44d')
     }
     agent any
     stages {
@@ -30,21 +32,21 @@ pipeline {
             }
         }
 
-        stage('Package and deploy to Nexus') {
-            steps {
-                sh 'mvn clean package deploy:deploy-file  -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar -DrepositoryId=deploymentRepo -Durl=http://0.0.0.0:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
-            }
-        }
-        stage('Image build (Docker)') {
-            steps {
-                sh 'docker build -t sofiene/achat .'
-            }
-        }
-        // stage('Push image to DockerHub (Docker)') {
+        // stage('Package and deploy to Nexus') {
         //     steps {
-        //         sh 'docker build -t sofiene/achat .'
+        //         sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://0.0.0.0:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
         //     }
         // }
+        stage('Build and deploy image to DockerHub (Docker)') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
 
     // stage('Run Spring app and MySQL images (Docker-compose)') {
     //     steps {
