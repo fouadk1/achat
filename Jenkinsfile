@@ -40,15 +40,26 @@ pipeline {
         // }
         stage('Build and deploy image to DockerHub (Docker)') {
             steps {
-                sh "docker build -t $dockerImageName:$build_number ."
-                sh "docker login -u $registryCredential_USR -p $registryCredential_PSW"
-                sh "docker push $registry:$build_number"
+                    sh "docker build -t $dockerImageName:v1.$build_number ."
+                    sh "docker image tag $dockerImageName:v1.$build_number $registry/$dockerImageName:v1.$build_number"
+                    sh "docker image tag $dockerImageName:v1.$build_number $registry/$dockerImageName:latest"
+            }
+        }
+
+        stage('Push image to DockerHub (Docker)') {
+            steps {
             // script {
             //     dockerImage = docker.build registry
             //     docker.withRegistry('', registryCredential) {
             //         dockerImage.push()
             //     }
             // }
+                withCredentials([gitUsernamePassword(credentialsId: 'dockerhub_password', gitToolName: 'Default'), string(credentialsId: 'dock_creds', variable: 'dockerhub_cred')]) {
+                    // some block
+                    sh "docker login -u sofienembk -p ${dockerhub_cred}"
+                    sh "docker image push $registry/$dockerImageName:v1.$build_number"
+                    sh "docker image push $registry/$dockerImageName:latest"
+                }
             }
         }
 
