@@ -58,7 +58,7 @@ pipeline {
         stage('push image to Docker Hub') { 
             steps { 
                 script {
-                        sh "docker push fouadk1/project:achat"
+                        sh "docker push fouadk1/project:$build_number"
                     }  
             }
         }
