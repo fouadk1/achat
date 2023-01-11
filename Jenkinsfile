@@ -2,9 +2,6 @@ pipeline {
   environment {
         localhost = "192.168.0.11"
         dockerImage = "achat"
-        dockerUser = "fouadk1"
-        dockerRepo = "project"
-        DOCKERHUB_CREDS = credentials('dockerhub1')
         tagname = "second"
         registry= "fouadk1/achat"
 	    registryCredential = "dockerRegPwd"
@@ -24,7 +21,7 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('MVN UnitTEST (Mockito)') {
+        stage('MVN TEST (Mockito)') {
             steps {
                 sh 'mvn test'
             }
@@ -39,23 +36,18 @@ pipeline {
                 sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
             }
         }
-        stage('Building our image') { 
+        stage('BUILD') { 
             steps { 
                 script { 
                     timestamps {
-                    //sh "docker build -t $dockerImage:$build_number ."
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
                     }
                 }
             } 
         }
-        stage('push') { 
+        stage('PUSH DOCKERHUB') { 
             steps { 
                 script {
-                        //sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
-                        //sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
-                        //sh "docker images"
-                        //sh "docker push $dockerRepo/$dockerImage"
                         timestamps {
 						  docker.withRegistry ('', registryCredential ) {
 							  dockerImage.push()
