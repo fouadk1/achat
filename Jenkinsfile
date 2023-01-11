@@ -49,7 +49,7 @@ pipeline {
                 script {
                     //withCredentials([string(credentialsId: 'dockerhub1', variable: 'dockercredentials')]) {
                         sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
-                        sh "docker tag $dockerImage $dockerUser/project:second"
+                        //sh "docker tag $dockerImage $dockerUser/project:second"
                         sh "docker push $dockerUser/$dockerRepo:second"
                        // }
                 } 
