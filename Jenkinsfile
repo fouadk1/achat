@@ -45,18 +45,21 @@ pipeline {
                 }
             } 
         }
-        stage('Deploy image to Docker Hub') { 
+        stage('tag image') { 
             steps { 
                 script {
                         sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
                         sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
-                        sh "docker push $dockerRepo/$build_number"
+                        //sh "docker push $dockerRepo/$build_number"
                     } 
             } 
+            
+        }
+        stage('push image to Docker Hub') { 
             steps { 
                 script {
                         sh "docker push $dockerRepo:$build_number"
-                    }  //docker push fouadk1/dockerhub:firsttest
+                    }  
             }
         }
     }
