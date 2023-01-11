@@ -1,0 +1,12 @@
+# docker-compose.yml
+version: '2'
+services:
+        sonarqube:
+                image: sonarqube:8.9.7-community
+                ports:
+                        - "9000:9000"
+                        - "9000:9092"
+        nexus:
+                image: sonartype/nexus3
+                ports:
+                        - "8081:8081"
