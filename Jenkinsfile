@@ -33,11 +33,14 @@ pipeline {
             }
         }
 
-        // stage('Package and deploy to Nexus') {
-        //     steps {
-        //         sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
-        //     }
-        // }
+        stage('Package and deploy to Nexus') {
+            steps {
+                // sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
+                script {
+                    nexusArtifactUploader artifacts: [[artifactId: 'achat', classifier: '', file: 'target/achat.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'tn.esprit.rh', nexusUrl: 'http://192.168.122.1:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
+                }
+            }
+        }
         stage('Build and deploy image to DockerHub (Docker)') {
             steps {
                     sh "docker build -t $dockerImageName:v1.$build_number ."
@@ -48,14 +51,13 @@ pipeline {
 
         stage('Push image to DockerHub (Docker)') {
             steps {
-            // script {
-            //     dockerImage = docker.build registry
-            //     docker.withRegistry('', registryCredential) {
-            //         dockerImage.push()
-            //     }
-            // }
+                // script {
+                //     dockerImage = docker.build registry
+                //     docker.withRegistry('', registryCredential) {
+                //         dockerImage.push()
+                //     }
+                // }
                 withCredentials([gitUsernamePassword(credentialsId: 'dockerhub_password', gitToolName: 'Default'), string(credentialsId: 'dock_creds', variable: 'dockerhub_cred')]) {
-                    // some block
                     sh "docker login -u sofienembk -p ${dockerhub_cred}"
                     sh "docker image push $registry/$dockerImageName:v1.$build_number"
                     sh "docker image push $registry/$dockerImageName:latest"
