@@ -6,9 +6,9 @@ pipeline {
     }
     agent any
     stages {
-        stage('Cloning the project from Git') {
+        stage('Git clone (cloner le projet sur la VM)') {
             steps {
-                echo "Cloning Project from GitHub; Branch : $branch"
+                echo 'Git Clone'
                 git branch: "$branch",
           url: "$repo"
             }
@@ -16,6 +16,11 @@ pipeline {
         stage('Build code (Maven)') {
             steps {
                 sh 'mvn clean install -DskipTests'
+            }
+        }
+        stage('Test Unitaire Pour l entité Operateur') {
+            steps {
+                sh 'mvn test -Dtest=OperateurServiceTest'
             }
         }
         stage('SonarQube Analysis') {
