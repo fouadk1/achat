@@ -2,8 +2,9 @@ pipeline {
   environment {
         localhost = "192.168.0.11"
         registry = "fouadk1/project" 
-        registryCredential = 'fouadk1' 
         dockerImage = 'achat'
+        dockerUser = fouadk1
+        dockerRepo = project
     }
     agent any
     stages {
@@ -46,7 +47,8 @@ pipeline {
             steps { 
                 script { 
                     sh "docker tag $dockerImage:first project:first"
-                    sh "docker push $dockerImage:first"
+                    sh "docker tag $dockerImage $dockerUser/project:second"
+                    sh "docker push $dockerUser/$dockerRepo:second"
                         }
                 } 
             } 
