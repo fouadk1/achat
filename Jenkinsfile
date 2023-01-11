@@ -49,9 +49,9 @@ pipeline {
             steps { 
                 script {
                         sh "docker login -u $dockerUser -p $DOCKERHUB_CREDS"
-                        sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
+                        //sh "docker tag $dockerImage:$build_number $dockerRepo:$build_number"
                         sh "docker images"
-                        sh "docker push $dockerRepo/$build_number"
+                        sh "docker push $dockerRepo/$dockerImage"
                     } 
             } 
             
