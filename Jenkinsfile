@@ -17,9 +17,8 @@ pipeline {
             }
         }
         stage('Build code (Maven)') {
-            steps { 
-                sh '''#!/usr/bin/env bash
-                mvn clean install -DskipTests'''
+            steps {
+                sh 'mvn clean install -DskipTests'
             }
         }
         stage('Run unit tests (Maven)') {
