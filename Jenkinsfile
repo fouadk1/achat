@@ -33,19 +33,19 @@ pipeline {
             }
         }
 
-        stage('Package and deploy to Nexus') {
-            steps {
-                // sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
-                script {
-                    nexusArtifactUploader artifacts: [[artifactId: 'achat', classifier: '', file: 'target/achat.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'tn.esprit.rh', nexusUrl: 'http://192.168.122.1:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
-                }
-            }
-        }
+        // stage('Package and deploy to Nexus') {
+        //     steps {
+        //         // sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
+        //         script {
+        //             nexusArtifactUploader artifacts: [[artifactId: 'achat', classifier: '', file: 'target/achat.jar', type: 'jar']], credentialsId: 'nexus-auth', groupId: 'tn.esprit.rh', nexusUrl: 'http://192.168.122.1:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '1.0'
+        //         }
+        //     }
+        // }
         stage('Build docker image') {
             steps {
-                    sh "docker build -t $dockerImageName:v1.$build_number ."
-                    sh "docker image tag $dockerImageName:v1.$build_number $registry/$dockerImageName:v1.$build_number"
-                    sh "docker image tag $dockerImageName:v1.$build_number $registry/$dockerImageName:latest"
+                    sh "docker build -t $dockerImageName:v1.$BUILD_NUMBER ."
+                    sh "docker image tag $dockerImageName:v1.$BUILD_NUMBER $registry/$dockerImageName:v1.$BUILD_NUMBER"
+                    sh "docker image tag $dockerImageName:v1.$BUILD_NUMBER $registry/$dockerImageName:latest"
             }
         }
 
@@ -59,17 +59,22 @@ pipeline {
                 // }
                 withCredentials([gitUsernamePassword(credentialsId: 'dockerhub_password', gitToolName: 'Default'), string(credentialsId: 'dock_creds', variable: 'dockerhub_cred')]) {
                     sh "docker login -u sofienembk -p ${dockerhub_cred}"
-                    sh "docker image push $registry/$dockerImageName:v1.$build_number"
+                    sh "docker image push $registry/$dockerImageName:v1.$BUILD_NUMBER"
                     sh "docker image push $registry/$dockerImageName:latest"
                 }
             }
         }
+        stage('Remove Unused docker image') {
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
 
-    // stage('Run Spring app and MySQL images (Docker-compose)') {
-    //     steps {
-    //         sh 'docker-compose down --remove-orphans'
-    //         sh 'docker-compose up'
-    //     }
-    // }
+        stage('Run Spring app and MySQL images (Docker-compose)') {
+            steps {
+                sh 'docker-compose down --remove-orphans'
+                sh 'docker-compose up'
+            }
+        }
     }
 }
