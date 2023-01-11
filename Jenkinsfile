@@ -7,7 +7,7 @@ pipeline {
         DOCKERHUB_CREDS = credentials('dockerhub1')
         tagname = "second"
         registry= "fouadk1/achat"
-	    registryCredential = "dockerhub-pwd"
+	    registryCredential = "dockerhub1"
     }
     agent any
     stages {
