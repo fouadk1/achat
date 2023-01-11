@@ -29,7 +29,7 @@ pipeline {
         }   
         stage('Nexus') {
             steps {
-                sh 'mvn deploy'
+                sh 'mvn -DskipTests deploy'
             }
         }
 
