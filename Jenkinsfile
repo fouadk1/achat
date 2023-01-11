@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'Git Clone'
                 git branch: "$branch",
-          url: "$repo"
+                url: "$repo"
             }
         }
         stage('Build code (Maven)') {
