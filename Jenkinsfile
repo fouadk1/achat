@@ -38,7 +38,7 @@ pipeline {
         stage('Building our image') { 
             steps { 
                 script { 
-                    sh "docker build -t $dockerImageName:$build_number"
+                    sh "docker build -t $dockerImage:$build_number"
                 }
             } 
         }
