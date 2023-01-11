@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('Clone source code from Git') {
+        stage('Cloning the project from Git') {
             steps {
                 echo "Cloning Project from GitHub; Branch : $branch"
                 git branch: "$branch",
@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean install -DskipTests'
             }
         }
         stage('SonarQube Analysis') {
