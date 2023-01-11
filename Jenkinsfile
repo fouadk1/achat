@@ -5,6 +5,7 @@ pipeline {
         dockerImageName = 'sofiene/achat'
         registry = 'sofiene/achatproject'
         registryCredential = credentials('dockerhub-sofiene')
+        hostIP = '192.168.122.1'
     }
     agent any
     stages {
@@ -28,13 +29,13 @@ pipeline {
         }
         stage('Run code quality test (SonarQube)') {
             steps {
-                sh 'mvn clean verify -DskipTests sonar:sonar -Dsonar.projectKey=SofieneAchat -Dsonar.host.url=http://0.0.0.0:9000 -Dsonar.login=fc0c69f06c9ed9e7b35cdc27b3954a484bf44fc2'
+                sh "mvn sonar:sonar -Dsonar.projectKey=SofieneAchat -Dsonar.host.url=http://${hostIP}:9000 -Dsonar.login=fc0c69f06c9ed9e7b35cdc27b3954a484bf44fc2"
             }
         }
 
         stage('Package and deploy to Nexus') {
             steps {
-                sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.122.1:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
+                sh "mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${hostIP}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar"
             }
         }
         stage('Build and deploy image to DockerHub (Docker)') {
