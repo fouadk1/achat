@@ -46,8 +46,8 @@ pipeline {
         stage('Deploy image to Docker Hub') { 
             steps { 
                 script {
-                    withCredentials([string(credentialsId: 'dockerhubCred', variable: 'dockerhubpwd')]) {
-                        sh "docker login -u $dockerUser -p ${dockerhubpwd}"
+                    withCredentials([string(credentialsId: 'fouadk1', variable: 'dockercredentials')]) {
+                        sh "docker login -u $dockerUser -p ${dockercredentials}"
                         sh "docker tag $dockerImage $dockerUser/project:second"
                         sh "docker push $dockerUser/$dockerRepo:second"
                     }
