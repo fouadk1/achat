@@ -38,15 +38,15 @@ pipeline {
         stage('Building our image') { 
             steps { 
                 script { 
-                    sh "docker build -t $dockerImage:$build_number"
+                    sh "docker build -t $dockerImage:$build_number ."
                 }
             } 
         }
         stage('Deploy image to Docker Hub') { 
             steps { 
                 script { 
-                    docker.withRegistry( '', withDockerRegistry([ credentialsId: "fouadk1", url: "" ]) ) { 
-                        dockerImage.push() }
+                    sh "docker tag $dockerImage:first project:first"
+                    sh "docker push $dockerImage:first"
                         }
                 } 
             } 
