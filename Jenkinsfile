@@ -38,5 +38,11 @@ pipeline {
                 echo 'docker image pushed'
             }
         }
+        stage('DOCKER-COMPOSE') {
+            steps {
+                sh 'docker-compose down --remove-orphans'
+                sh 'docker-compose up'
+            }
+        }
     }     
 }
