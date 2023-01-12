@@ -46,11 +46,11 @@ pipeline {
                 }
             }
         }
-        // stage('Remove Unused docker image') {
-        //     steps {
-        //         sh "docker rmi $registry:$BUILD_NUMBER"
-        //     }
-        // }
+        stage('Remove Unused docker image') {
+            steps {
+                sh "docker rmi $registry"
+            }
+        }
         stage('Run Spring app and MySQL images (Docker-compose)') {
             steps {
                 sh 'docker-compose -f spring-mysql/docker-compose.yml down --remove-orphans'
