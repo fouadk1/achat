@@ -29,7 +29,8 @@ pipeline {
         }*/
         stage('MVN SONARQUBE') {
            steps {
-               sh 'mvn sonar:sonar -Dsonar.projectKey=fouad_achat -Dsonar.host.url=http://192.168.1.195:9000 -Dsonar.login=12400ceaa07a30eebdb65a5f2e3d977eae3658d3'
+             
+               sh 'mvn sonar:sonar -Dsonar.projectKey=khedija -Dsonar.host.url=http://192.168.1.195:9000 -Dsonar.login=12400ceaa07a30eebdb65a5f2e3d977eae3658d3'
             }
         }   
         stage('MVN DEPLOY') {
