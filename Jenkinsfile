@@ -18,15 +18,15 @@ pipeline {
             steps{
                 echo "Maven SONARQUBE"
                 sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://192.168.1.126:9000 -Dsonar.login=admin -Dsonar.password=AS@vaxi@##21'
-                      }
+            }
         }
         
         stage('MVN Test'){
             steps{
                 echo "Maven Test Junit + Mockito"
-                sh 'mvn test -Dtest=ReglementServiceTest'
-                      }
-                  }
+                sh 'clean compile test'
+            }
+        }
 
         stage('MVN DEPLOY') {
             steps {
@@ -44,12 +44,6 @@ pipeline {
                 echo 'pushing docker image'
                 sh "docker push fouadk1/achat/Amani:${commit_id} "
                 echo 'docker image pushed'
-            }
-        }
-        stage('DOCKER-COMPOSE') {
-            steps {
-                sh 'docker-compose down --remove-orphans'
-                sh 'docker-compose up'
             }
         }
     }     
