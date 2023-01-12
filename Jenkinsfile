@@ -15,7 +15,7 @@ pipeline {
                 url: "$repoUrl"
             }
         }
-        stage('Build code (Maven)') {
+        stage('Compile code (Maven)') {
             steps {
                 sh 'mvn clean compile -DskipTests'
             }
