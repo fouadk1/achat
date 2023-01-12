@@ -3,6 +3,8 @@ pipeline {
         repo = 'https://github.com/fouadk1/achat.git'
         branch = 'firas-operateur'
         dockerImage = 'imageFirasDocker'
+        registry = 'firasar/achat'
+        localhost = '192.168.3.18'
     }
     agent any
     stages {
@@ -18,7 +20,7 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }
-        stage('Test Unitaire Pour l entité Operateur') {
+        stage('Test Unitaire') {
             steps {
                 sh 'mvn test -Dtest=OperateurServiceTest'
             }
@@ -27,14 +29,21 @@ pipeline {
             steps {
                     sh 'mvn sonar:sonar \
                          -Dsonar.projectKey=firasOperateur \
-                         -Dsonar.host.url=http://192.168.3.18:9000 \
+                         -Dsonar.host.url=http://${localhost}:9000 \
                          -Dsonar.login=aa5ec4a0c47a4bb91c51bdc7d68a27e65cc711f6'
+            }
+        }
+        stage('Creation Image Docker') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
             }
         }
         stage('Nexus') {
             steps {
-                /* groovylint-disable-next-line LineLength */
-                sh 'mvn clean package  deploy:deploy-file  -DgroupId=tn.esprit.rh -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.3.18:8081/repository/maven-releases/ -Dfile=target/Achat-1.0.war'
+                /* groovylint-disable-next-line GStringExpressionWithinString, LineLength */
+                sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
             }
         }
     }
