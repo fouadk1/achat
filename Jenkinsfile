@@ -11,7 +11,7 @@ pipeline {
               stage('Build code (Maven)') {
                   steps {
                       echo 'Build Code'
-                      sh 'mvn -version'
+                      sh 'mvn -clean'
                     }
                 }
               
