@@ -29,7 +29,7 @@ pipeline {
         stage('BUILD') { 
             steps { 
                 script {
-                    dockerImage = docker.build Amani/achat
+                   sh' docker build -t fouadk1/achat/Amani:1.0.0 .'
                    // docker.withRegistry('', registryCredential) {
                        // dockerImage.push()                   
                 }
