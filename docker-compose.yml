@@ -27,13 +27,14 @@ services:
                 depends_on:
                         - my-db
                 environment:
-                        - MYSQL_HOST=my-db
-                        - MYSQL_USERNAME=admin
-                        - MYSQL_PASSWORD=password
-                        - MYSQL_DATABASE=achatdb
-                        - MYSQL_PORT=3306
-                        - SPRING_DATASOURCE_URL=jdbc:mysql://172.23.240.2:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-
+                        #MYSQL_HOST=my-db
+                        #MYSQL_USERNAME=admin
+                        #MYSQL_PASSWORD=password
+                        #MYSQL_DATABASE=achatdb
+                        #MYSQL_PORT=3306
+                        SPRING_DATASOURCE_URL: jdbc:mysql://172.23.240.2:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+                        SPRING_DATASOURCE_USERNAME: "admin"
+                        SPRING_DATASOURCE_PASSWORD: "password"
 networks:
         my-network:
                 name: my-network
