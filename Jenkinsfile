@@ -5,7 +5,7 @@ pipeline {
              NEXUS_PROTOCOL = "http"
              NEXUS_URL = "http://192.168.1.126:8081/repository/Nexus-Repository/"
              NEXUS_REPOSITORY = "Nexus-Repository"
-             NEXUS_CREDENTIAL_ID = "admin"
+             NEXUS_CREDENTIAL_ID = "nexus-user-credentials"
                }
     stages{
               stage('checkout GIT'){
