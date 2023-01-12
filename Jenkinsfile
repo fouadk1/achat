@@ -33,18 +33,19 @@ pipeline {
                          -Dsonar.login=aa5ec4a0c47a4bb91c51bdc7d68a27e65cc711f6'
             }
         }
-        stage('Creation Image Docker') {
-            steps {
-                script {
-                    dockerImage = docker.build registry
-                }
-            }
-        }
         stage('Nexus') {
             steps {
                 /* groovylint-disable-next-line GStringExpressionWithinString, LineLength */
                 sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
             }
         }
+        /* stage('Creation Image Docker') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+            }
+        }
+         */
     }
 }
