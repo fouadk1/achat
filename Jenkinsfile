@@ -54,7 +54,7 @@ pipeline {
         stage('Run Spring app and MySQL images (Docker-compose)') {
             steps {
                 sh 'docker-compose -f spring-mysql/docker-compose.yml down --remove-orphans'
-                sh 'docker-compose -f spring-mysql/docker-compose.yml up'
+                sh 'docker-compose -f spring-mysql/docker-compose.yml up -d'
             }
         }
     }
