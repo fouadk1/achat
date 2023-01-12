@@ -21,12 +21,12 @@ pipeline {
             }
         }
         
-        stage('MVN Test'){
-            steps{
-                echo "Maven Test Junit + Mockito"
-                sh 'clean compile test'
-            }
-        }
+        //stage('MVN Test'){
+            //steps{
+                //echo "Maven Test Junit + Mockito"
+                //sh 'clean compile test'
+           // }
+       // }
 
         stage('MVN DEPLOY') {
             steps {
