@@ -65,8 +65,8 @@ pipeline {
            stage('DOCKER-COMPOSE') {
             steps {
                 sh 'docker-compose down --remove-orphans'
-                sh 'docker-compose -f docker-compose.yml up -d'
-                sh 'docker restart spring-boot-docker-container'
+                sh 'docker-compose docker-compose.yml up -d'
+                sh 'docker start spring-boot-docker-container'
             }
         }
         
