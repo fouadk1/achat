@@ -20,7 +20,7 @@ services:
     build:
       context: .
     container_name: my-spring
-    image: sofienembk/achat:61
+    image: sofienembk/achat:62
     ports:
       - '8083:8083'
     networks:
