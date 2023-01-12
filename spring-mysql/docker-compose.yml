@@ -10,7 +10,6 @@ services:
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=appdb
       - MYSQL_ROOT_PASSWORD=secret
-      # - MYSQL_URL=jdbc:mysql://192.168.122.1:3306/appdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     volumes:
       - dbvol:/var/lib/mysql
     ports:
@@ -21,26 +20,25 @@ services:
     build:
       context: .
     container_name: my-spring
-    image: sofienembk/achat
+    image: sofienembk/achat:latest
     ports:
       - '8083:8083'
     networks:
       - my-network
     depends_on:
       - my-db
-    # environment:
-    #   - MYSQL_HOST=my-db
-    #   - MYSQL_USERNAME=root
-    #   - MYSQL_PASSWORD=password
-    #   - MYSQL_DATABASE=appdb
-    #   - MYSQL_PORT=3306
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/appdbautoReconnect=true&failOverReadOnly=false&maxReconnects=10
-      SPRING_DATASOURCE_USERNAME: my-db
-      SPRING_DATASOURCE_PASSWORD: password
+      - MYSQL_HOST=localhost
+      - MYSQL_USERNAME=myuser
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=appdb
+      - MYSQL_PORT=3306
 networks:
   my-network:
     name: my-network
-
 volumes:
   dbvol:
+    # environment:
+    #   SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/appdbautoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    #   SPRING_DATASOURCE_USERNAME: my-db
+    #   SPRING_DATASOURCE_PASSWORD: password
