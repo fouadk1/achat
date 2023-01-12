@@ -2,7 +2,6 @@ pipeline {
     environment {
         repoUrl = 'https://github.com/fouadk1/achat.git'
         branchName = 'sofiene'
-        dockerImageName = 'sofiene/achat'
         registry = 'sofienembk/achat'
         registryCredential = 'dockerhub-auth'
         hostIP = '192.168.122.1'
