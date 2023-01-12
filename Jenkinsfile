@@ -1,6 +1,6 @@
 pipeline {
   environment {
-        localhost = "192.168.0.11"
+        localhost = "172.23.240.1"
         dockerImage = "achat"
         tagname = "second"
         registry= "fouadk1/achat"
@@ -33,7 +33,7 @@ pipeline {
         }   
         stage('MVN DEPLOY') {
             steps {
-                sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.jar'
+                sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
             }
         }
         stage('BUILD') { 
@@ -57,5 +57,11 @@ pipeline {
             } 
             
         }
+         stage('RMV IMG') {
+            steps {
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+        
     }
 }
