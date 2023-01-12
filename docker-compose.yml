@@ -9,8 +9,11 @@ services:
       - MYSQL_USER=root
     ports:
       - "3306:3306"
+    volumes:
+      - 'Database_Volume: opt/Mysql/data'
   springboot-docker-container:
-    image: achat:$BUILD_NUMBER
+    container_name: my-spring
+    image: firasar/achat
     ports:
       - "8082:8082"
     environment:
@@ -23,3 +26,5 @@ services:
       dockerfile: "Dockerfile"
     depends_on:
       - mysql-standalone
+volumes:
+  Database_Volume:
