@@ -27,13 +27,16 @@ pipeline {
             }
         }
         stage('BUILD') { 
-            steps { 
-                script {
-                   sh' docker build -t fouadk1/achat/Amani:1.0.0 .'
-                   // docker.withRegistry('', registryCredential) {
-                       // dockerImage.push()                   
-                }
+            steps {
+                sh'docker build -t fouadk1/achat/Amani:${commit_id} .'                 
             } 
-        }       
+        }  
+         stage ("image push") {
+            steps {
+                echo 'pushing docker image'
+                sh "docker push fouadk1/achat/Amani:${commit_id} "
+                echo 'docker image pushed'
+            }
+        }
     }     
 }
