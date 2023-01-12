@@ -5,8 +5,8 @@ services:
                 environment:
                         - MYSQL_ROOT_PASSWORD=password
                         - MYSQL_PASSWORD=password
-                        - MYSQL_DATABASE=timesheetdb
-                        - MYSQL_USER=sa
+                        - MYSQL_DATABASE=achatdb
+                        - MYSQL_USER=fouad
                 ports:
                         - "3306:3306"
         springboot-docker-container:
@@ -14,8 +14,8 @@ services:
                 ports:
                         - "8086:8086"
                 environment:
-                        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/timesheetdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-                        SPRING_DATASOURCE_USERNAME: "sa"
+                        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+                        SPRING_DATASOURCE_USERNAME: "fouad"
                         SPRING_DATASOURCE_PASSWORD: "password"
                 build:
                         context: "./"
