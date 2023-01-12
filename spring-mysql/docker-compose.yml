@@ -41,7 +41,7 @@
 
 version: '3.7'
 services:
-  mysql-standalone:
+  mysql-db:
     image: 'mysql:5.6'
     environment:
       - MYSQL_ROOT_PASSWORD=password
@@ -50,15 +50,15 @@ services:
       - MYSQL_USER=myuser
     ports:
       - '3306:3306'
-  springboot-docker-container:
+  spring-app:
     build:
       context: .
-    container_name: spring-boot-docker-container
+    container_name: spring-app
     image: sofienembk/achat
     ports:
       - '8083:8083'
     depends_on:
-      - mysql-standalone
+      - mysql-db
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://192.168.122.1:3306/mydb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: 'myuser'
