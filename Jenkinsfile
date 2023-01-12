@@ -65,7 +65,7 @@ pipeline {
            stage('DOCKER-COMPOSE') {
             steps {
                 sh 'docker-compose down --remove-orphans'
-                sh 'docker-compose up -d'
+                sh 'docker-compose -f docker-compose.yml up -d'
             }
         }
         
