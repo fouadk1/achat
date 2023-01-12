@@ -1,32 +1,40 @@
-version: '3'
+version: '3.7'
 services:
-  mysql-standalone:
-    image: 'mysql:5.6'
+  achat-db:
+    container_name: achat-db
+    image: mysql:8.0
+    networks:
+      - my-network
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_USER=root
       - MYSQL_PASSWORD=
       - MYSQL_DATABASE=achatdb
-      - MYSQL_USER=root
-    ports:
-      - "3306:3306"
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_URL=jdbc:mysql://192.168.3.18:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     volumes:
-      - db:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
-  springboot-docker-container:
-    container_name: my-spring
+      - dbvol:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    restart: always
+  my-app:
+    build:
+      context: .
+    container_name: achat-app
     image: firasar/achat
     ports:
-      - "8082:8082"
-    environment:
-      DB_HOST: "192.168.3.18"
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: "root"
-      SPRING_DATASOURCE_PASSWORD:
-    build:
-      context: "./"
-      dockerfile: "Dockerfile"
+      - '8082:8082'
+    networks:
+      - my-network
     depends_on:
-      - mysql-standalone
+      - achat-db
+    environment:
+      - DB_HOST= 192.168.3.18
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+      - DB_DATABASE=
+      - DB_PORT=3306
+networks:
+  my-network:
+    name: my-network
 volumes:
-  db:
-    driver: local
+  dbvol:
