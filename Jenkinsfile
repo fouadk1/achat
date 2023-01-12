@@ -1,6 +1,6 @@
 pipeline {
   environment {
-        localhost = "192.168.2.136"
+        localhost = "192.168.1.124"
         dockerImage = "achat"
         tagname = "second"
         registry= "fouadk1/achat"
