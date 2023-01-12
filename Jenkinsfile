@@ -40,7 +40,7 @@ pipeline {
             steps { 
                 script { 
                     timestamps {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build registry
                     }
                 }
             } 
@@ -59,7 +59,7 @@ pipeline {
         }
          stage('RMV IMG') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi $registry:latest"
             }
         }
            stage('DOCKER-COMPOSE') {
