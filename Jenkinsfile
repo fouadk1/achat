@@ -5,7 +5,7 @@ pipeline {
                   steps{
                       echo 'Pulling'
                        git branch: 'Amani',
-                       url : 'https://github.com/fouadk1/achat'
+                       url : 'https://github.com/fouadk1/achat.git'
                   }
               }
               stage('Build code (Maven)') {
