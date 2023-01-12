@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  my-db:
+    container_name: my-db
+    image: mysql:8.0
+    networks:
+      - my-network
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=appdb
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - dbvol:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    restart: always
+
+  my-app:
+    build:
+      context: .
+    container_name: my-spring
+    image: sofiene/achat:latest
+    ports:
+      - '8080:8080'
+    networks:
+      - my-network
+    depends_on:
+      - my-db
+    environment:
+      - MYSQL_HOST=my-db
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=appdb
+      - MYSQL_PORT=3306
+
+networks:
+  my-network:
+    name: my-network
+
+volumes:
+  dbvol:

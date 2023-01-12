@@ -3,8 +3,8 @@ pipeline {
         repoUrl = 'https://github.com/fouadk1/achat.git'
         branchName = 'sofiene'
         dockerImageName = 'sofiene/achat'
-        registry = 'sofiene/achatproject'
-        registryCredential = credentials('dockerhub-auth')
+        registry = 'sofienembk/achat'
+        registryCredential = 'dockerhub-auth'
         hostIP = '192.168.122.1'
     }
     agent any
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                    docker.withRegistry('https://hub.docker.com/', registryCredential) {
+                    docker.withRegistry('', registryCredential) {
                         dockerImage.push()
                     }
                 }
@@ -53,8 +53,8 @@ pipeline {
         }
         stage('Run Spring app and MySQL images (Docker-compose)') {
             steps {
-                sh 'docker-compose down --remove-orphans'
-                sh 'docker-compose up'
+                sh 'docker-compose ./spring-mysql down --remove-orphans'
+                sh 'docker-compose ./spring-mysql up'
             }
         }
     }
