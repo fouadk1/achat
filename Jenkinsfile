@@ -61,6 +61,12 @@ pipeline {
             } 
             
         }
+         stage('CD single engine mode: docker-compose') {
+      steps {
+          
+            bat "docker-compose up -d"
+      }
+      }
         /* stage('Creation Image Docker') {
             steps {
                 script {
