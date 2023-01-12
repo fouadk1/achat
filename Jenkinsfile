@@ -5,6 +5,7 @@ pipeline {
         dockerImage = 'imageFirasDocker'
         registry = 'firasar/achat'
         localhost = '192.168.3.18'
+        dockerCreds = 'dockerHub'
     }
     agent any
     stages {
@@ -38,6 +39,27 @@ pipeline {
                 /* groovylint-disable-next-line GStringExpressionWithinString, LineLength */
                 sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://${localhost}:8081/repository/maven-releases/ -Dfile=target/achat-1.0.war'
             }
+        }
+        stage('Image Docker') {
+            steps {
+                script {
+                    timestamps {
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    }
+                }
+            }
+        }
+        stage('PUSH DOCKERHUB') { 
+            steps { 
+                script {
+                        timestamps {
+						  docker.withRegistry ('', dockerCreds ) {
+							  dockerImage.push()
+                        }
+                    } 
+                }
+            } 
+            
         }
         /* stage('Creation Image Docker') {
             steps {
