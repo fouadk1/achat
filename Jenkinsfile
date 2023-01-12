@@ -26,5 +26,15 @@ pipeline {
        
             }
         }
+        stage('BUILD') { 
+            steps { 
+                script {
+                    sh 'docker build -t fouadk1/achat:1.0.0 https://github.com/fouadk1/achat/blob/Amani/Dockerfile'
+                    
+                }
+            } 
+        }
+           
+        
     }     
 }
