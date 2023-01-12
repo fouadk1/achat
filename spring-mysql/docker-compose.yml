@@ -6,7 +6,7 @@ services:
     networks:
       - my-network
     environment:
-      - MYSQL_USER=root
+      - MYSQL_USER=my-db
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=appdb
       - MYSQL_ROOT_PASSWORD=secret
@@ -20,9 +20,9 @@ services:
     build:
       context: .
     container_name: my-spring
-    image: sofiene/achat:latest
+    image: sofienembk/achat:latest
     ports:
-      - '8080:8080'
+      - '8083:8083'
     networks:
       - my-network
     depends_on:
