@@ -1,21 +1,15 @@
 version: '3.7'
 services:
-        my-db:
-                container_name: my-db
-                image: mysql:8.0
-                networks:
-                        - my-network
+        mysql-standalone:
+                image: 'mysql:5.6'
                 environment:
-                        - MYSQL_USER=my-db
-                        - MYSQL_PASSWORD=admin
+                        - MYSQL_ROOT_PASSWORD=password
+                        - MYSQL_PASSWORD=password
                         - MYSQL_DATABASE=achatdb
-                        - MYSQL_ROOT_PASSWORD=secret
-                volumes:
-                        - dbvol:/var/lib/mysql
+                        - MYSQL_USER=fouad
                 ports:
-                        - '3306:3306'
-                restart: always
-        achat-app:
+                        - "3306:3306"
+        springboot-docker-container:
                 build:
                         context: .
                 container_name: spring-boot-docker-container
@@ -25,7 +19,7 @@ services:
                 networks:
                         - my-network
                 depends_on:
-                        - my-db
+                        - mysql-standalone
                 environment:
                         #MYSQL_HOST=my-db
                         #MYSQL_USERNAME=admin
@@ -33,10 +27,7 @@ services:
                         #MYSQL_DATABASE=achatdb
                         #MYSQL_PORT=3306
                         SPRING_DATASOURCE_URL: jdbc:mysql://172.23.240.2:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-                        SPRING_DATASOURCE_USERNAME: "admin"
+                        SPRING_DATASOURCE_USERNAME: "fouad"
                         SPRING_DATASOURCE_PASSWORD: "password"
-networks:
-        my-network:
-                name: my-network
 volumes:
         dbvol:
