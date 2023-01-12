@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - 'Database_Volume: opt/Mysql/data'
+      - 'Database_Volume: /opt/Mysql/data'
   springboot-docker-container:
     container_name: my-spring
     image: firasar/achat
