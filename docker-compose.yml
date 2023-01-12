@@ -1,24 +1,41 @@
-version: '3'
+version: '3.7'
 services:
-        mysql-standalone:
-                image: 'mysql:5.6'
+        my-db:
+                container_name: my-db
+                image: mysql:8.0
+                networks:
+                        - my-network
                 environment:
-                        - MYSQL_ROOT_PASSWORD=password
+                        - MYSQL_USER=my-db
+                        - MYSQL_PASSWORD=password
+                        - MYSQL_DATABASE=appdb
+                        - MYSQL_ROOT_PASSWORD=secret
+                volumes:
+                        - dbvol:/var/lib/mysql
+                ports:
+                        - '3306:3306'
+                restart: always
+        achat-app:
+                build:
+                        context: .
+                container_name: spring-boot-docker-container
+                image: fouadk1/achat
+                ports:
+                        - '8082:8082'
+                networks:
+                        - my-network
+                depends_on:
+                        - my-db
+                environment:
+                        - MYSQL_HOST=my-db
+                        - MYSQL_USERNAME=fouad
                         - MYSQL_PASSWORD=password
                         - MYSQL_DATABASE=achatdb
-                        - MYSQL_USER=fouad
-                ports:
-                        - "3306:3306"
-        springboot-docker-container:
-                image: achat:$BUILD_NUMBER
-                ports:
-                        - "8086:8086"
-                environment:
-                        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-                        SPRING_DATASOURCE_USERNAME: "fouad"
-                        SPRING_DATASOURCE_PASSWORD: "password"
-                build:
-                        context: "./"
-                        dockerfile: "Dockerfile"
-                depends_on:
-                        - mysql-standalone
+                        - MYSQL_PORT=3306
+                        - SPRING_DATASOURCE_URL=jdbc:mysql://172.23.240.2:3306/timesheetdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+
+networks:
+        my-network:
+                name: my-network
+volumes:
+        dbvol:
