@@ -22,21 +22,7 @@ pipeline {
                   }      
               stage("Publish to Nexus Repository Manager") {
                   steps {
-                      nexusArtifactUploader artifacts: [
-                          [
-                              artifactId: 'achat',
-                              classifier: '',
-                              file: 'target/achat-1.0.0.war',
-                              type: 'war'
-                          ]
-                      ],
-                          credentialsId: 'nexus3',
-                          groupId: 'tn.esprit.rh',
-                          nexusUrl: '192.168.1.126:8081',
-                          nexusVersion: 'nexus3',
-                          protocol: 'http',
-                          repository: 'http://192.168.1.126:8081/repository/Nexus-Repository/',
-                          version: '1.0.0'
+                       sh 'mvn clean package deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.1.126:8081/repository/Nexus-Repository/ -Dfile=target/achat-1.0.jar'
                   }
               }
     }     
