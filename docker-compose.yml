@@ -16,8 +16,6 @@ services:
                 image: fouadk1/achat
                 ports:
                         - '8082:8082'
-                networks:
-                        - my-network
                 depends_on:
                         - mysql-standalone
                 environment:
