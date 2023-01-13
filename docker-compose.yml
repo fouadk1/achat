@@ -24,7 +24,7 @@ services:
                         #MYSQL_PASSWORD=password
                         #MYSQL_DATABASE=achatdb
                         #MYSQL_PORT=3306
-                        SPRING_DATASOURCE_URL: jdbc:mysql://192.168.0.11:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+                        SPRING_DATASOURCE_URL: jdbc:mysql://192.168.1.124:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
                         SPRING_DATASOURCE_USERNAME: "fouad"
                         SPRING_DATASOURCE_PASSWORD: "password"
 volumes:
