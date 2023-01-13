@@ -4,7 +4,7 @@ pipeline {
         branch = 'firas-operateur'
         dockerImage = 'imageFirasDocker'
         registry = 'firasar/achat'
-        localhost = '192.168.3.18'
+        localhost = '192.168.1.100'
         dockerCreds = 'dockerHub'
     }
     agent any
@@ -49,7 +49,7 @@ pipeline {
                 }
             }
         }
-        stage('PUSH DOCKERHUB') { 
+        stage('Dockerhub image push') { 
             steps { 
                 script {
                         timestamps {
@@ -61,7 +61,7 @@ pipeline {
             } 
             
         }
-         stage('CD single engine mode: docker-compose') {
+         stage('Docker-compose') {
       steps {
           
             sh "docker-compose up -d"

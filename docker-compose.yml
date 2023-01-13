@@ -10,13 +10,13 @@ services:
       - MYSQL_PASSWORD=
       - MYSQL_DATABASE=achatdb
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_URL=jdbc:mysql://192.168.3.18:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - MYSQL_URL=jdbc:mysql://192.168.1.100:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     volumes:
       - dbvol:/var/lib/mysql
     ports:
       - '3306:3306'
     restart: always
-  my-app:
+  achat-app:
     build:
       context: .
     container_name: achat-app
@@ -28,7 +28,7 @@ services:
     depends_on:
       - achat-db
     environment:
-      - DB_HOST= 192.168.3.18
+      - DB_HOST= 192.168.1.100
       - DB_USERNAME=root
       - DB_PASSWORD=
       - DB_DATABASE=
