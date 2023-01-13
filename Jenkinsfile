@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Build code (Maven)') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean install'
             }
         }
         stage('Test Unitaire') {
