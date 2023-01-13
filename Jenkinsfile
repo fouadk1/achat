@@ -16,10 +16,11 @@ pipeline {
                 url: 'https://github.com/fouadk1/achat.git'
             }
         }
-        stage('MVN CLEAN') {
+        stage('MVN CLEAN and compile') {
             steps {
                 sh 'mvn -version'
-                sh 'mvn clean'
+                sh 'mvn clean compile -DskipTests'
+                
             }
         }
         
