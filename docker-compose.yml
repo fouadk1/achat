@@ -3,8 +3,6 @@ services:
   achat-db:
     container_name: achat-db
     image: mysql:8.0
-    networks:
-      - my-network
     environment:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=
@@ -22,8 +20,6 @@ services:
     image: firasar/achat
     ports:
       - '8082:8082'
-    networks:
-      - my-network
     depends_on:
       - achat-db
     environment:
@@ -32,8 +28,5 @@ services:
       - DB_PASSWORD=
       - DB_DATABASE=
       - DB_PORT=3306
-networks:
-  my-network:
-    name: my-network
 volumes:
   dbvol:
