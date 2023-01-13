@@ -17,7 +17,7 @@ pipeline {
         stage('MVN SONARQUBE'){
             steps{
                 echo "Maven SONARQUBE"
-                sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://172.16.1.15:9000 -Dsonar.login=admin -Dsonar.password=admin'
+                sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://172.16.1.15:9000 -Dsonar.login=admin -Dsonar.password=sonar'
             }
         }
         
