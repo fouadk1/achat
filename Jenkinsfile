@@ -67,13 +67,5 @@ pipeline {
             sh "docker-compose up -d"
       }
       }
-        /* stage('Creation Image Docker') {
-            steps {
-                script {
-                    dockerImage = docker.build registry
-                }
-            }
-        }
-         */
     }
 }
