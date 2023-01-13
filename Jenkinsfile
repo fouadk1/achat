@@ -17,7 +17,7 @@ pipeline {
         stage('MVN SONARQUBE'){
             steps{
                 echo "Maven SONARQUBE"
-                sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://192.168.1.126:9000 -Dsonar.login=admin -Dsonar.password=admin'
+                sh 'mvn sonar:sonar -Dsonar.projectKey=Amani -Dsonar.host.url=http://172.16.1.15:9000 -Dsonar.login=admin -Dsonar.password=admin'
             }
         }
         
@@ -30,7 +30,7 @@ pipeline {
 
         stage('MVN DEPLOY') {
             steps {
-                sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://192.168.1.126:8081/repository/Nexus-Repository/ -Dfile=target/achat-1.0.jar'
+                sh 'mvn clean package -DskipTests deploy:deploy-file -DgroupId=tn.esprit -DartifactId=achat -Dversion=1.0 -DgeneratePom=true -Dpackaging=war -DrepositoryId=deploymentRepo -Durl=http://172.16.1.15:8081/repository/Nexus-Repository/ -Dfile=target/achat-1.0.jar'
        
             }
         }
