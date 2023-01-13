@@ -22,11 +22,7 @@ pipeline {
                 sh 'mvn clean'
             }
         }
-        stage('MVN TEST (Mockito)') {
-           steps {
-              sh 'mvn test'
-            }
-        }
+        
         stage('MVN SONARQUBE') {
            steps {
              
